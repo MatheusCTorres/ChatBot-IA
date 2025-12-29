@@ -1,35 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import CharbotIcon from "./components/ChatbotIcon";
+import ChatForm from "./components/ChatForm";
+import ChatMessage from "./components/ChatMessage";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [chatHistory, setChatHistory] = useState([]);
+
+  const generateBotResponse = (history) => {
+    console.log(history);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className="container">
+      <div className="chatbot-popup">
+        {/* chatbot header */}
+        <div className="chat-header">
+          <div className="header-info">
+            <CharbotIcon />
+            <h2 className="logo-text">Chatbot</h2>
+          </div>
+          <button className="material-symbols-rounded">
+            keyboard_arrow_down
+          </button>
+        </div>
 
-export default App
+        {/* chatbot body */}
+        <div className="chat-body">
+          <div className="message bot-message">
+            <CharbotIcon />
+            <p className="message-text">Hi! How can I help you?</p>
+          </div>
+
+          {/* render the chat history dynamically */}
+          {chatHistory.map((chat, index) => (
+            <ChatMessage key={index} chat={chat} />
+          ))}
+        </div>
+
+        {/* chatbot footer */}
+        <div className="chat-footer">
+          <ChatForm
+            chatHistory={chatHistory}
+            setChatHistory={setChatHistory}
+            generateBotResponse={generateBotResponse}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
